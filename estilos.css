@@ -1,0 +1,109 @@
+*{
+    margin:0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+}
+
+#formulario{
+    width: 1200px;
+    height: 282px;
+    border: 1px solid #7F7F7F;
+    margin-top: 69px;
+    margin-left: 39px;
+    display: flex;
+    flex-direction: row;
+}
+
+#principal{
+    width: 450px;
+    height: 280px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #BFBFBF;
+}
+
+#campos1{
+    margin-left: 15px;
+    margin-top: 10px;
+    width: 120px;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin-top: 3px;
+    height: 25px;
+    background-color: #D9D9D9;
+}
+
+#campos{
+    margin-left: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    background-color: #DDEBF6;
+    border:none;
+    height: 25px;
+    margin-top: 3px;
+}
+
+select{
+    background-color: #DDEBF6;
+    border:none;
+    height: 25px;
+    margin-top: 3px;
+}
+
+#botones{
+    margin-top:25px;
+}
+
+#btnEliminar{
+    background-color: #FD0100;
+    height: 30px;
+    border:none;
+    color:white;
+    width: 120px;
+    cursor: pointer;
+}
+
+#btnAgregar{
+    background-color: #00B04E;
+    height: 30px;
+    color:white;
+    border:none;
+    width: 120px;
+    cursor: pointer;
+}
+
+#tabla{
+    margin-left: 10px;
+    height: 250px;
+}
+
+table{
+    margin-left: 1px;
+    margin-top: 12px;
+    width: 600px;
+    height: 250px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F2F2F2;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #DAE1F3;
+}
+
+th {
+    background-color: #808080;
+    height: 25px;
+    color: white;
+    width: 20px;
+}

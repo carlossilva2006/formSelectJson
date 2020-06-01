@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Document</title>
+</head>
+<body>
+     <form id="formulario" action="">
+        <div id="principal">
+            <div id="campos1">
+                <label for="">Nombres</label>
+                <label for="">Apellido Paterno</label>
+                <label for="">Apellido Materno</label>
+                <label for="">Dirección</label>
+                <label for="">Región</label>
+                <label for="">Provincia</label>
+                <label for="">Comuna</label>
+            </div>
+            <div id="campos">
+                <input type="text" id="Nombres" required>
+                <input type="text" id="ApellidoPat" required>
+                <input type="text" id="ApellidoMat" required>
+                <input type="text" id="Direccion" required>
+                <select id="selecReg">
+                    <!-- <option value="">Seleccione Region</option> -->
+                   </select>
+                   <select id="selecPro">
+                       <!-- <option value="">Seleccione Provincia</option> -->
+                   </select>
+                   <select id="selecCom">
+                       <!-- <option value="">Seleccione Comuna</option> -->
+                   </select>
+                <div id="botones">
+                    <button id="btnEliminar">Eliminar</button>
+                    <button id="btnAgregar">Agregar</button>    
+                </div>
+            </div>
+        </div> 
+         <div id="tabla">
+            <table id="tablaPer">
+                <thead>
+                    <th scope="row">Nombres</th>
+                    <th scope="row">Apellido Paterno</th>
+                    <th scope="row">Apellido Materno</th>
+                    <th scope="row">Dirección</th>
+                    <th scope="crow">Comuna</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+         </div>         
+     </form>
+     <script src="Persona.js"></script>
+</body>
+</html>
