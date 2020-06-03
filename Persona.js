@@ -6,7 +6,6 @@ let nombre,
     direccion,
     bAgregar,
     bEliminar,
-    campos,
     tablaPer,
     filaSelec
 
@@ -19,10 +18,12 @@ bEliminar = document.getElementById('btnEliminar')
 tablaPer = document.getElementById("tablaPer").tBodies[0];
 
 bAgregar.addEventListener("click",() => {
-    
     Agregar();
  })
 
+bEliminar.addEventListener("click",() => {
+    Eliminar();
+})
 
 const dropRegion = document.getElementById('selecReg');
 const dropProvincia = document.getElementById('selecPro');
@@ -142,10 +143,11 @@ function inicializaRegion() {
     dropRegion.appendChild(option)
 }
 
-function Agregar() {
-    if (nombre.value == "" && paterno == "" && materno == "" &&  direccion == "") {
+const Agregar = () => {
+    if (nombre.value == "" && paterno.value == "" && materno.value == "" && direccion.value =="" && dropComuna.value =="" || dropComuna.value == 0) {
+        alert("debe llenar todos los campos");
+    }else if (filaSelec == null) {
         agregarPers();
-        if (filaSelec == null) {
         } else {
             filaSelec.cells[0].innerHTML = nombre.value;
             filaSelec.cells[1].innerHTML = paterno.value;
@@ -153,46 +155,57 @@ function Agregar() {
             filaSelec.cells[3].innerHTML = direccion.value;
             filaSelec.cells[4].innerHTML = dropComuna.options[dropComuna.value ].textContent; 
         }
-
-    }
+        Limpiar();
 }
 
 const agregarPers = () => {
-    
-    let row
-    let table = document.getElementById("tablaPer")
-    let count = table.rows.length;
-          row = table.insertRow(count);
-        row.insertCell(0).innerHTML = nombre.value
-        row.insertCell(1).innerHTML = paterno.value
-        row.insertCell(2).innerHTML = materno.value
-        row.insertCell(3).innerHTML = direccion.value
-        row.insertCell(4).innerHTML = dropComuna.options[dropComuna.value ].textContent
+    let fila    = tablaPer.insertRow(0),
+        celdaN  = fila.insertCell(0),
+        celdaAP = fila.insertCell(1),
+        celdaAM = fila.insertCell(2),
+        celdaD  = fila.insertCell(3),
+        celdaCo = fila.insertCell(4);
+        
+    celdaN.innerHTML  = nombre.value
+    celdaAP.innerHTML = paterno.value
+    celdaAM.innerHTML = materno.value
+    celdaD.innerHTML  = direccion.value
+    celdaCo.innerHTML = dropComuna.options[dropComuna.value ].textContent
+
     Limpiar();
 
-    row.addEventListener("click",() =>{
-        tomarFila(this)
+    fila.addEventListener("click",() =>{
+        tomarFila(fila)
     })
 }
 
-const tomarFila = (row) => {
-    nombre.value     = row.cells[0].innerHTML;
-    paterno.value    = row.cells[1].innerHTML;
-    materno.value    = row.cells[2].innerHTML;
-    direccion.value  = row.cells[3].innerHTML;
-    dropComuna.options[dropComuna.value ].textContent = row.cells[4].innerHTML;
-    filaSelec = row;
-}
 
-// function Eliminar() { }
+const tomarFila = (fila) => {
+    
+    nombre.value     = fila.cells[0].innerHTML;
+    paterno.value    = fila.cells[1].innerHTML;
+    materno.value    = fila.cells[2].innerHTML;
+    direccion.value  = fila.cells[3].innerHTML;
+    dropComuna.options[dropComuna.value ].textContent = fila.cells[4].innerHTML;
+    filaSelec = fila;
+    
+}
 
 let Limpiar = () => {
     nombre.value    = "";
     paterno.value   = "";
     materno.value   = "";
     direccion.value = "";
+    dropRegion.options[dropRegion.value ].innerHTML = "::  Seleccione Region  ::";
+    dropProvincia.options[dropProvincia.value ].innerHTML = "::  Seleccione Provincia  ::";
+    dropComuna.options[dropComuna.value ].innerHTML = "::  Seleccione Comuna  ::";
     nombre.focus()
 }
 
-
+const Eliminar = () => {
+    if(filaSelec !== null){
+        tablaPer.deleteRow(filaSelec.rowIndex - 1)
+        Limpiar()
+    }
+}
 
