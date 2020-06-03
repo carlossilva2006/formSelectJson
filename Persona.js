@@ -1,21 +1,28 @@
 'use strict'
 
-let txtnombres,
-    txtapellidoPa,
-    txtapellidoMa,
-    txtdireccion,
+let nombre,
+    paterno,
+    materno,
+    direccion,
     bAgregar,
     bEliminar,
-    campos
-    // tablaPer
+    campos,
+    tablaPer,
+    filaSelec
 
-txtnombres = document.getElementById('Nombres')
-txtapellidoPa = document.getElementById('apellidoPa')
-txtapellidoMa = document.getElementById('apellidoMa')
-txtdireccion = document.getElementById('direccion')
+nombre  = document.getElementById('Nombre')
+paterno = document.getElementById('ApellidoPat')
+materno = document.getElementById('ApellidoMat')
+direccion = document.getElementById('Direccion')
 bAgregar = document.getElementById('btnAgregar')
 bEliminar = document.getElementById('btnEliminar')
-// tablaPer = document.getElementById("tabla").tBodies[0];
+tablaPer = document.getElementById("tablaPer").tBodies[0];
+
+bAgregar.addEventListener("click",() => {
+    
+    Agregar();
+ })
+
 
 const dropRegion = document.getElementById('selecReg');
 const dropProvincia = document.getElementById('selecPro');
@@ -83,6 +90,33 @@ dropRegion.addEventListener("change", (e) => {
     }
 })
 
+let idProvincia;
+dropProvincia.addEventListener("change",(e) => {
+    idProvincia = e.target.value - 1
+    inicializaComuna();
+    for(let i = 0; i < dataJson[idRegion].provincias[idProvincia].comunas.length; i++){
+        let option = document.createElement("option");
+        option.value = i + 1 
+        option.text = dataJson[idRegion].provincias[idProvincia].comunas[i].name;
+        dropComuna.appendChild(option)
+    }
+})
+
+let idComuna
+
+dropComuna.addEventListener("click", (e) => {
+    idComuna = e.target.value -1
+    for(let i = 0; i < dataJson[idRegion].provincias[idProvincia].comunas[idComuna]; i++){
+        let option = document.createElement("option");
+        option.value = i + 1 
+        option.text = dataJson[idRegion].provincias[idProvincia].comunas[i].name;
+        
+        // optext = option.text;
+        dropComuna.append(option)
+    }
+})
+
+
 function inicializaComuna() {
     dropComuna.options.length = 0;
     let option = document.createElement("option");
@@ -108,52 +142,56 @@ function inicializaRegion() {
     dropRegion.appendChild(option)
 }
 
-
 function Agregar() {
-    if (campos.value !== "") {
+    if (nombre.value == "" && paterno == "" && materno == "" &&  direccion == "") {
+        agregarPers();
         if (filaSelec == null) {
-            agregarPers(campos.value);
         } else {
-            filaSelec.cells[0].innerHTML = txtnombres.value;
-            filaSelec.cells[1].innerHTML = txtapellidoPa.value;
-            filaSelec.cells[2].innerHTML = txtapellidoMa.value;
-            filaSelec.cells[3].innerHTML = txtdireccion.value;
+            filaSelec.cells[0].innerHTML = nombre.value;
+            filaSelec.cells[1].innerHTML = paterno.value;
+            filaSelec.cells[2].innerHTML = materno.value;
+            filaSelec.cells[3].innerHTML = direccion.value;
+            filaSelec.cells[4].innerHTML = dropComuna.options[dropComuna.value ].textContent; 
         }
-        Limpiar();
+
     }
 }
 
-function agregarPers(txtnombres, txtapellidoPa, txtapellidoMa, txtdireccion) {
-    let fila = tablaPer.insertRow(0),
-        Cnombre = fila.insertCell(0),
-        CapeP = fila.insertCell(1),
-        CapeM = fila.insertCell(2),
-        Cdire = fila.insertCell(3);
+const agregarPers = () => {
+    
+    let row
+    let table = document.getElementById("tablaPer")
+    let count = table.rows.length;
+          row = table.insertRow(count);
+        row.insertCell(0).innerHTML = nombre.value
+        row.insertCell(1).innerHTML = paterno.value
+        row.insertCell(2).innerHTML = materno.value
+        row.insertCell(3).innerHTML = direccion.value
+        row.insertCell(4).innerHTML = dropComuna.options[dropComuna.value ].textContent
+    Limpiar();
 
-    Cnombre.innerHTML = txtnombres;
-    CapeP.innerHTML = txtapellidoPa;
-    CapeM.innerHTML = txtapellidoMa;
-    Cdire.innerHTML = txtdireccion;
-
-    // fila.addEventListener("click", () => {
-    //     tomarFila(this);
-    // });
+    row.addEventListener("click",() =>{
+        tomarFila(this)
+    })
 }
 
-function tomarFila(fila) {
-    txtnombres.value = fila.cells[0].innerHTML;
-    txtapellidoPa.value = fila.cells[1].innerHTML;
-    txtapellidoMa.value = fila.cells[2].innerHTML;
-    txtdireccion.value = fila.cells[3].innerHTML;
-
-    filaSelec = fila;
+const tomarFila = (row) => {
+    nombre.value     = row.cells[0].innerHTML;
+    paterno.value    = row.cells[1].innerHTML;
+    materno.value    = row.cells[2].innerHTML;
+    direccion.value  = row.cells[3].innerHTML;
+    dropComuna.options[dropComuna.value ].textContent = row.cells[4].innerHTML;
+    filaSelec = row;
 }
 
-function Eliminar() { }
+// function Eliminar() { }
 
-function Limpiar() {
-    campos = "";
-    txtnombres.focus();
+let Limpiar = () => {
+    nombre.value    = "";
+    paterno.value   = "";
+    materno.value   = "";
+    direccion.value = "";
+    nombre.focus()
 }
 
 

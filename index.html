@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-     <form id="formulario" action="">
+     <div id="formulario" >
         <div id="principal">
             <div id="campos1">
                 <label for="">Nombres</label>
@@ -19,18 +19,18 @@
                 <label for="">Comuna</label>
             </div>
             <div id="campos">
-                <input type="text" id="Nombres" required>
-                <input type="text" id="ApellidoPat" required>
-                <input type="text" id="ApellidoMat" required>
-                <input type="text" id="Direccion" required>
+                <input type="text"  id="Nombre" placeholder="Nombre">
+                <input type="text"  id="ApellidoPat" placeholder="Apellido Paterno" >
+                <input type="text"  id="ApellidoMat" placeholder="Apellido Materno" >
+                <input type="text"  id="Direccion" placeholder="Direccion" >
                 <select id="selecReg">
-                    <!-- <option value="">Seleccione Region</option> -->
-                   </select>
+                    
+                </select>
                    <select id="selecPro">
-                       <!-- <option value="">Seleccione Provincia</option> -->
-                   </select>
+                                        
+                </select>
                    <select id="selecCom">
-                       <!-- <option value="">Seleccione Comuna</option> -->
+                       
                    </select>
                 <div id="botones">
                     <button id="btnEliminar">Eliminar</button>
@@ -45,14 +45,14 @@
                     <th scope="row">Apellido Paterno</th>
                     <th scope="row">Apellido Materno</th>
                     <th scope="row">Dirección</th>
-                    <th scope="crow">Comuna</th>
+                    <th scope="row">Comuna</th>
                 </thead>
                 <tbody>
                     
                 </tbody>
             </table>
          </div>         
-     </form>
+        </div>
      <script src="Persona.js"></script>
 </body>
 </html>
