@@ -19,7 +19,7 @@ tablaPer = document.getElementById("tablaPer").tBodies[0];
 
 bAgregar.addEventListener("click",() => {
     Agregar();
- })
+})
 
 bEliminar.addEventListener("click",() => {
     Eliminar();
@@ -31,7 +31,7 @@ const dropComuna = document.getElementById('selecCom');
 
 let dataJson;
 
-function jsonData() {
+function jsonData () {
     return new Promise((resolve, reject) => {
         readTextFile("chile.json", text => {
             if (text != "") {
@@ -47,7 +47,7 @@ function jsonData() {
 
 console.log(jsonData());
 
-function readTextFile(file, callback) {
+function readTextFile (file, callback) {
     let rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", file, true);
@@ -59,11 +59,11 @@ function readTextFile(file, callback) {
     rawFile.send(null);
 }
 
-onload = function () {
+onload = () => {
     Iniciar();
 }
 
-function Iniciar() {
+function Iniciar () {
     inicializaRegion();
     inicializaProvincia();
     inicializaComuna();
@@ -78,47 +78,7 @@ function Iniciar() {
     })
 }
 
-let idRegion;
-
-dropRegion.addEventListener("change", (e) => {
-    idRegion = e.target.value -1 
-    inicializaProvincia();
-    for(let i = 0; i < dataJson[idRegion].provincias.length;i++){
-        let option = document.createElement("option");
-        option.value = i + 1
-        option.text = dataJson[idRegion].provincias[i].name;
-        dropProvincia.appendChild(option)
-    }
-})
-
-let idProvincia;
-dropProvincia.addEventListener("change",(e) => {
-    idProvincia = e.target.value - 1
-    inicializaComuna();
-    for(let i = 0; i < dataJson[idRegion].provincias[idProvincia].comunas.length; i++){
-        let option = document.createElement("option");
-        option.value = i + 1 
-        option.text = dataJson[idRegion].provincias[idProvincia].comunas[i].name;
-        dropComuna.appendChild(option)
-    }
-})
-
-let idComuna
-
-dropComuna.addEventListener("click", (e) => {
-    idComuna = e.target.value -1
-    for(let i = 0; i < dataJson[idRegion].provincias[idProvincia].comunas[idComuna]; i++){
-        let option = document.createElement("option");
-        option.value = i + 1 
-        option.text = dataJson[idRegion].provincias[idProvincia].comunas[i].name;
-        
-        // optext = option.text;
-        dropComuna.append(option)
-    }
-})
-
-
-function inicializaComuna() {
+const inicializaComuna = () => {
     dropComuna.options.length = 0;
     let option = document.createElement("option");
     option.value = "0"
@@ -126,7 +86,7 @@ function inicializaComuna() {
     dropComuna.appendChild(option);
 }
 
-function inicializaProvincia(idRegion) {
+const inicializaProvincia = (idRegion) => {
     dropProvincia.options.length = 0;
     var option = document.createElement("option");
     option.value = "0"
@@ -135,12 +95,55 @@ function inicializaProvincia(idRegion) {
 
 }
 
-function inicializaRegion() {
+const inicializaRegion = () => {
     dropRegion.options.length = 0;
     var option = document.createElement("option");
     option.value = "0"
     option.text = "::  Seleccione Región  ::";
     dropRegion.appendChild(option)
+}
+
+let idRegion;
+dropRegion.addEventListener("change", (e) => {
+    idRegion = e.target.value -1 
+    inicializaProvincia()
+    inicializaComuna()
+    if (dataJson[idRegion].provincias.length > 0) {
+        // console.log(dataJson[e.target.value - 1].provincias.length);
+        var option = document.createElement("option");
+        dropComuna.appendChild(option)
+        cargarProvincia(idRegion);
+    }
+})
+
+function cargarProvincia (idRegion) {
+    for (let j = 0; j < dataJson[idRegion].provincias.length; j++) {
+        var option = document.createElement("option");
+        //console.log(dataJson[idRegion].provincias[j].name);
+        option.value = j + 1
+        option.text = dataJson[idRegion].provincias[j].name;
+        dropProvincia.appendChild(option);
+    }
+}
+
+let idProvincia;
+dropProvincia.addEventListener("change",(e) => {
+    dropComuna.options.length = 0;
+    idProvincia = e.target.value - 1
+    let option = document.createElement("option");
+    option.value = 0;
+    option.text = ":: Seleccione Comuna::"
+    dropComuna.appendChild(option); 
+    cargarComuna(idRegion, idProvincia);
+})
+
+function cargarComuna (idRegion, idProvincia) {
+    for(let i = 0; i < dataJson[idRegion].provincias[idProvincia].comunas.length; i++){
+        let option = document.createElement("option");
+        option.value = i + 1 
+        option.text = dataJson[idRegion].provincias[idProvincia].comunas[i].name;
+        dropComuna.appendChild(option)
+    }
 }
 
 const Agregar = () => {
@@ -159,6 +162,7 @@ const Agregar = () => {
 }
 
 const agregarPers = () => {
+
     let fila    = tablaPer.insertRow(0),
         celdaN  = fila.insertCell(0),
         celdaAP = fila.insertCell(1),
@@ -181,17 +185,46 @@ const agregarPers = () => {
 
 
 const tomarFila = (fila) => {
-    
+
     nombre.value     = fila.cells[0].innerHTML;
     paterno.value    = fila.cells[1].innerHTML;
     materno.value    = fila.cells[2].innerHTML;
     direccion.value  = fila.cells[3].innerHTML;
     dropComuna.options[dropComuna.value ].textContent = fila.cells[4].innerHTML;
-    filaSelec = fila;
     
+    let eleCo = false;
+    let idRegion, idProvi, idComu
+    for (let idReg = 0; idReg < dataJson.length; idReg++) {
+        for (let idProv = 0; idProv < dataJson[idReg].provincias.length; idProv++) {
+            for (let idCom = 0; idCom < dataJson[idReg].provincias[idProv].comunas.length; idCom++) {
+                if (dataJson[idReg].provincias[idProv].comunas[idCom].name == dropComuna) {
+                    eleCo    = true;
+                    idRegion = idReg;
+                    idProvi  = idProv;
+                    idComu   = idCom;
+                    break;
+                }
+                if (eleCo == true) { break; }
+            }
+            if (eleCo == true) { break; }
+        }
+        if (eleCo == true) { break; }
+    }
+    
+
+    dropRegion[idRegion];
+
+    cargarProvincia(idRegion)
+    dropProvincia[idProv];
+
+    cargarComuna(idRegion, idProvi)
+    dropComuna[idComu ];
+
+    filaSelec = fila;
+
 }
 
-let Limpiar = () => {
+const Limpiar = () => {
     nombre.value    = "";
     paterno.value   = "";
     materno.value   = "";

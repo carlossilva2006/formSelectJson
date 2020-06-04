@@ -84,13 +84,16 @@ select{
 #tabla{
     margin-left: 10px;
     height: 250px;
+    width: 600px;
+    /* overflow:scroll */
 }
 
-table{
+#tablaPer{
     margin-left: 1px;
     margin-top: 12px;
     width: 600px;
     height: 250px;
+    border:1px solid black;
 }
 
 tbody tr:nth-child(even) {
@@ -106,4 +109,8 @@ th {
     height: 25px;
     color: white;
     width: 20px;
+}
+tr:hover{
+    background-color: #5a95e2;
+    cursor: pointer;
 }
